@@ -10,7 +10,8 @@ const ProposalSchema = new mongoose.Schema({
     subject: { type: String, default: "New Proposal Received" },
     message_for_client: { type: String },
     extracted: {
-        price: Number,
+        price_per_piece: Number,
+        total_price: Number,
         quantity: Number,
         terms: String,
         warranty: String,

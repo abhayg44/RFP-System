@@ -1,0 +1,156 @@
+.rfp-form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.rfp-form label {
+  display: block;
+  margin-bottom: 24px;
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 1rem;
+}
+
+.rfp-form input,
+.rfp-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  margin-top: 8px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background: #f7fafc;
+  width: 95%;
+}
+
+.rfp-form input:focus,
+.rfp-form textarea:focus {
+  outline: none;
+  border-color: #1e40af;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.rfp-form textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.vendor-emails-container {
+  margin-top: 8px;
+}
+
+.vendor-email-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.vendor-email-row input {
+  flex: 1;
+  margin-top: 0;
+}
+
+.vendor-email-row button {
+  padding: 10px 16px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #fed7d7;
+  color: #c53030;
+  line-height: 1;
+  min-width: 40px;
+}
+
+.vendor-email-row button:hover {
+  background: #dc2626;
+  color: white;
+}
+
+.add-vendor-button {
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 2px dashed #1e40af;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  background: white;
+  color: #1e40af;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.add-vendor-button:hover {
+  border-style: solid;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rfp-form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.rfp-form button[type="submit"] {
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  background: #1e40af;
+  color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.rfp-form button[type="submit"]:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.rfp-form button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .rfp-form {
+    padding: 20px;
+  }
+
+  .rfp-form label {
+    font-size: 0.95rem;
+  }
+
+  .rfp-form input,
+  .rfp-form textarea {
+    font-size: 0.95rem;
+  }
+
+  .vendor-email-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .vendor-email-row input {
+    margin-top: 8px;
+  }
+
+  .rfp-form button[type="submit"] {
+    width: 100%;
+  }
+}

@@ -5,7 +5,7 @@ const createRfp = async (req, res) => {
     try {
         const { natural_text } = req.body;
 
-        await publishMessage("rfp_creation_queue", { text: natural_text });
+        await publishMessage("ai_request_queue", { text: natural_text });
 
         res.json({ message: "RFP request sent to AI queue" });
     } catch (err) {
@@ -24,9 +24,9 @@ const createClientRequest = async (req, res) => {
         for (const item of payload) {
             const messageId = item.messageId || `${Date.now()}-${Math.random().toString(36).slice(2,9)}`;
             const message = {
-                ...item,
                 origin: "client",
-                messageId,
+                messageId:item.messageId || `${Date.now()}-${Math.random().toString(36).slice(2,9)}`,
+                text: item.text,
                 client_email: item.client_email || item.email || null,
                 vendor_email: item.vendor_email || item.vendorEmail || null
             };
@@ -43,8 +43,63 @@ const getAllRfps = async (req, res) => {
     res.json(rfps);
 };
 
+const editRequest = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updates = req.body;
+        const rfp = await RFP.findByIdAndUpdate(id, updates, { replace: true });
+        if (!rfp) {
+            return res.status(404).json({ error: "RFP not found" });
+        }
+        res.json({ message: "RFP updated", rfp });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+const deleteRequest = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const rfp = await RFP.findByIdAndDelete(id);
+        if (!rfp) {
+            return res.status(404).json({ error: "RFP not found" });
+        }
+        res.json({ message: "RFP deleted" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+const getParticularRequest=async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const rfp = await RFP.findById(id);
+        if (!rfp) {
+            return res.status(404).json({ error: "RFP not found" });
+        }
+        res.json(rfp);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+const aiEvaluationHandler = async (body) => {
+    try {
+        if(!body) {
+            return res.status(500).json({ error: "Missing body" });
+        }
+        await publishMessage("ai_evaluation", { body });
+        res.json({ message: "AI evaluation request sent to queue" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 module.exports = {
     createRfp,
     getAllRfps,
     createClientRequest,
+    editRequest,
+    deleteRequest,
+    getParticularRequest
 };

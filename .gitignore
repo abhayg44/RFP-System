@@ -7,7 +7,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Environment variables
-.env
 
 # Optional npm cache
 .npm

@@ -1,11 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const {
-    addVendor,
-    getVendors
+    getVendorProposals,
+    createVendorRequest,
+    triggerEvaluation,
+    getEvaluationResults
 } = require("../controller/vendorController");
 
-router.post("/add", addVendor);
-router.get("/", getVendors);
+router.post("/request", createVendorRequest);
+router.get("/proposals/:rfpId", getVendorProposals);
+router.post("/evaluate/:rfpId", triggerEvaluation);
+router.get("/evaluation/:rfpId", getEvaluationResults);
 
 module.exports = router;

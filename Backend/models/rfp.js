@@ -14,7 +14,7 @@ const RfpSchema = new mongoose.Schema({
     items: [
         {   
             name: String,
-            quantity: Number,
+            quantity: mongoose.Schema.Types.Mixed,
             specs: String
         }
     ],

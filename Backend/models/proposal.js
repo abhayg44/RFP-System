@@ -12,7 +12,7 @@ const ProposalSchema = new mongoose.Schema({
     extracted: {
         price_per_piece: Number,
         total_price: Number,
-        quantity: Number,
+        quantity: mongoose.Schema.Types.Mixed,
         terms: String,
         warranty: String,
         delivery_time: String

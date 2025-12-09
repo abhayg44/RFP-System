@@ -142,7 +142,7 @@ def call_ollama(prompt: str) -> str:
             OLLAMA_API_URL,
             json=payload,
             headers=headers,
-            timeout=120  
+            timeout=300  
         )
         response.raise_for_status()
         
@@ -423,23 +423,15 @@ def evaluate_proposals(proposals: list) -> Dict[str, Any]:
     }]
 }'''
     
-    prompt = f"""You are an expert procurement analyst. Evaluate these proposals and rank them.
+    prompt = f"""Rank these {len(proposals)} proposals in 5 categories. Return JSON only.
 
-Proposals:
 {proposals_text}
 
-Analyze and rank proposals in these categories:
-1. BEST PRICE: Lowest total cost (consider both price_per_piece and total_price)
-2. BEST WARRANTY: Longest/most comprehensive warranty coverage
-3. BEST DELIVERY: Fastest delivery time
-4. BEST QUANTITY: Most appropriate quantity offered (if applicable)
-5. OVERALL BEST: Best value considering all factors (price, delivery, warranty, terms)
+Rank by: price (lowest), warranty (best), delivery (fastest), quantity (best fit), overall (best value).
+Return JSON with keys: best_price, best_warranty, best_delivery, best_quantity, overall_best
+Each has 3 items with proposal_index (0 to {len(proposals)-1}), reasoning (1 sentence), scores.
 
-IMPORTANT: Return a JSON OBJECT (not array) with 5 keys: best_price, best_warranty, best_delivery, best_quantity, overall_best
-Each key contains an array of 3 ranking objects with proposal_index, reasoning, and scores fields.
-Use different proposal_index values in each category's top 3.
-
-Return ONLY a JSON object in this exact format (no markdown, no code blocks):
+Format:
 {json_example}"""
     
     try:

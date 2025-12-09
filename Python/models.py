@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional, List, Union
 from enum import Enum
 
 
@@ -9,9 +9,8 @@ class Origin(str, Enum):
 
 
 class ExtractedData(BaseModel):
-    # price: kept for backward-compatibility (prefer using price_per_piece / total_price)
     price: Optional[float] = None
-    quantity: Optional[int] = None
+    quantity: Optional[Union[int, str]] = None
     price_per_piece: Optional[float] = None
     total_price: Optional[float] = None
     terms: Optional[str] = None
@@ -21,13 +20,11 @@ class ExtractedData(BaseModel):
 
 class Item(BaseModel):
     name: Optional[str] = None
-    quantity: Optional[int] = None
+    quantity: Optional[Union[int, str]] = None  
     specs: Optional[str] = None
 
 
-# Request models from Node.js
 class ProcessClientRequestPayload(BaseModel):
-    """Unstructured client request that needs to be organized into RFP"""
     text: str = Field(..., description="Unstructured paragraph/text from client")
     client_email: str = Field(..., description="Client email address")
     vendor_email: str = Field(..., description="Vendor email to send RFP to")
@@ -35,7 +32,6 @@ class ProcessClientRequestPayload(BaseModel):
 
 
 class ProcessVendorProposalPayload(BaseModel):
-    """Unstructured vendor proposal that needs to be organized into Proposal"""
     text: str = Field(..., description="Unstructured paragraph/text from vendor")
     client_email: str = Field(..., description="Client email")
     vendor_email: str = Field(..., description="Vendor email")
@@ -44,9 +40,7 @@ class ProcessVendorProposalPayload(BaseModel):
     messageId: Optional[str] = Field(None, description="Idempotency key")
 
 
-# Response models (to be published to RabbitMQ)
 class ProcessedRFPResponse(BaseModel):
-    """Structured RFP response for vendor"""
     origin: str = "client"
     messageId: str
     client_email: str
@@ -63,7 +57,6 @@ class ProcessedRFPResponse(BaseModel):
 
 
 class ProcessedProposalResponse(BaseModel):
-    """Structured proposal response for client"""
     origin: str = "vendor"
     messageId: str
     client_email: str
